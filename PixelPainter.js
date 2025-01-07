@@ -219,12 +219,12 @@ export default class PixelPainter{
     }
   }
   fillBox(coord){
-    console.log("boxfill active")
+
       if(this.boxFillCoord==null){
-        console.log("setting initial coord");
+
         this.boxFillCoord=coord;
       }else{
-        console.log(this.boxFillCoord,coord);
+
         this.fillArea(this.boxFillCoord,coord);
         this.update();
         this.boxFill=false;
@@ -237,12 +237,12 @@ export default class PixelPainter{
     this.drawGrid()
   }
   fillArea(coord1,coord2){
-    console.log("fill running")
+
     const startX= coord1.x>coord2.x ? coord2.x:coord1.x;
     const endX = coord1.x<coord2.x ? coord2.x:coord1.x;
     const startY= coord1.y>coord2.y ? coord2.y:coord1.y;
     const endY = coord1.y<coord2.y ? coord2.y:coord1.y;
-    console.log(startX,startY,endX,endY);
+
 
     for(let i = startX;i<=endX;i++){
       for(let j = startY;j<=endY;j++){
@@ -264,10 +264,9 @@ export default class PixelPainter{
   handleSave(event){
     this.clearGrid()
     this.colorGrid()
-    // console.log(this.grid);
-    // console.log(this.canvas.toDataURL("img/png"));
+
     const image = this.buildSprite()
-    console.log(image)
+
     this.galery.push(image);
     this.updateGalery()
     this.closeModal()
