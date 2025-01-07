@@ -12,6 +12,7 @@ A javascript module that adds pixel art tools to your project.
 
 * download the PixelPainter.js file and add it to your project directory
 * import the class `import PixelPainter from './PixelPainter.js'`
+* create a PixelPainter object. The dimension of the square can be passed in as an optional parameter.
 * create a dom element reference for adding dom elements
 
 ## Example
