@@ -37,6 +37,7 @@ export default class PixelPainter{
     let frame = document.createElement("canvas");
     frame.width=window.innerWidth*0.5;
     frame.height=frame.width;
+    frame.style.backgroundColor="white"
     this.scale=frame.width/this.dim;
 
     frame.addEventListener("click",e=>{
