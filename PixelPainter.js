@@ -35,7 +35,7 @@ export default class PixelPainter{
   }
   initializeCanvas(){
     let frame = document.createElement("canvas");
-    frame.width=window.innerWidth*0.5;
+    frame.width=window.innerHeight*0.7;
     frame.height=frame.width;
     frame.style.backgroundColor="white"
     this.scale=frame.width/this.dim;
