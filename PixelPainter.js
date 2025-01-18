@@ -10,6 +10,8 @@ export default class PixelPainter{
     this.color= this.initializeColor();
     this.save=this.initializeSaveButton();
     this.boxFillButton=this.initializeBoxFillButton();
+    this.eraser=this.initializeEraser()
+    this.eraseMode=false;
     this.modal;
     this.galery=[];
     this.selectedGaleryItem;
@@ -50,6 +52,14 @@ export default class PixelPainter{
     let color = document.createElement('input');
     color.type="color";
     return color
+  }
+  initializeEraser(){
+    let eraser = document.createElement('button');
+    eraser.innerText='eraser'
+    eraser.addEventListener('click',e=>{
+      this.eraseMode=true;
+    })
+    return eraser
   }
   initializeSaveButton(){
     let save = document.createElement("button");
@@ -94,6 +104,7 @@ export default class PixelPainter{
     container.appendChild(this.color);
     container.appendChild(this.save);
     container.appendChild(this.boxFillButton);
+    container.appendChild(this.eraser);
     //fill supercontainer
     superContainer.appendChild(closeModal)
     superContainer.appendChild(lineBreak)
@@ -110,7 +121,7 @@ export default class PixelPainter{
     superContainer.style.width="100%"
     superContainer.style.height="100%"
     superContainer.style.overflow="auto"
-    superContainer.style.backgroundColor="rgba(0,0,0,0.4)"
+    // superContainer.style.backgroundColor="rgba(0,0,0,0.4)"
 
     this.modal=superContainer;
     //fill element
@@ -124,24 +135,30 @@ export default class PixelPainter{
     let container=document.createElement("div");
     container.id="galery";
     this.domGalery = container;
+
+    let saveGallery = document.createElement('button');
+    saveGallery.innerText="Save Gallery"
     
     container.style.display="flex";
     container.style.height="10em"
-    container.style.width="100%"
-    container.style.overflowX="scroll"
+    container.style.width="25vw"
+    container.style.overflow="scroll"
     container.style.flexDirection="row"
     container.style.alignItems="center"
-    container.style.justifyContent="center"
+    container.style.justifyContent="start"
     container.style.gap="1em"
     container.style.background="rgba(0,0,0,0.2)"
+    container.style.padding="1em"
     
     superContainer.style.border="solid black";
+    superContainer.style.width="27vw"
     superContainer.style.borderRadius="1em"
     superContainer.style.margin="0";
     superContainer.style.padding="0";
     superContainer.style.overflow="hidden"
     
     superContainer.appendChild(container);
+    element.appendChild(saveGallery);
     
     element.appendChild(superContainer);
     this.updateGalery()
@@ -209,12 +226,15 @@ export default class PixelPainter{
     this.brush.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
   handleClick(event){
-
     const coord={x:Math.floor(event.offsetX/this.scale),y:Math.floor(event.offsetY/this.scale)}
     if(this.boxFill){
       this.fillBox(coord);
     }else{
-      this.grid[coord.x][coord.y]=this.color.value;
+      if(!this.eraseMode){
+        this.grid[coord.x][coord.y]=this.color.value;
+      }else{
+        this.grid[coord.x][coord.y]=null;
+      }
       this.update()
     }
   }
@@ -235,6 +255,7 @@ export default class PixelPainter{
     this.clearGrid()
     this.colorGrid()
     this.drawGrid()
+    this.eraseMode=false;
   }
   fillArea(coord1,coord2){
 
@@ -242,11 +263,11 @@ export default class PixelPainter{
     const endX = coord1.x<coord2.x ? coord2.x:coord1.x;
     const startY= coord1.y>coord2.y ? coord2.y:coord1.y;
     const endY = coord1.y<coord2.y ? coord2.y:coord1.y;
-
+    const color= this.eraseMode?null:this.color.value;
 
     for(let i = startX;i<=endX;i++){
       for(let j = startY;j<=endY;j++){
-        this.grid[i][j]=this.color.value;
+        this.grid[i][j]=color
       }
     }
 
